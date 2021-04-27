@@ -2,7 +2,7 @@ using System;
 
 namespace heist_2
 {
-  public class LockSpecialist: IRobber // Step 3 Make a Hacker class using the Robber interface
+  public class LockSpecialist: IRobber // Step 3. Make a LockSpecoialist class using the Robber interface
   {
     public string Name { get; set; }
     public int SkillLevel { get; set; }

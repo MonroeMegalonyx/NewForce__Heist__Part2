@@ -2,7 +2,7 @@ using System;
 
 namespace heist_2
 {
-  public class Muscle: IRobber // Step 3 Make a Hacker class using the Robber interface
+  public class Muscle: IRobber // Step 3. Make a Muscle class using the Robber interface
   {
     public string Name { get; set; }
     public int SkillLevel { get; set; }
