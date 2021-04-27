@@ -2,11 +2,19 @@
 
 namespace heist_2
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+      Bank b = new Bank
+      {
+        CashOnHand = -9,
+        AlarmScore = 0,
+        VaultScore = 0,
+        SecurityGuardScore = 0,
+      };
+
+      Console.WriteLine($"{b.IsSecure}");
     }
+  }
 }
