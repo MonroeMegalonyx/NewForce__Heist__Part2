@@ -7,6 +7,11 @@ namespace heist_2
   {
     static void Main(string[] args)
     {
+      // Print the message "Plan Your Second Heist!".
+      Console.WriteLine("########################################" +
+                        "\n########### Plan Your Heist! ###########" +
+                        "\n########################################");
+
       // Part 4. Create a List<IRobber> and store it in a variable named rolodex
       List<IRobber> rolodex = new List<IRobber>
       {
@@ -50,7 +55,123 @@ namespace heist_2
       };
 
       // When the program starts, print out the number of current operatives in the roladex.
-      Console.WriteLine("");
+      Console.WriteLine($"\nThere are {rolodex.Count} people we could call. Plus the Ghostbusters.");
+
+      // Prompt the user to enter the name of a new possible crew member. Continue adding new members until given a blank name
+      string userName = null;
+      while (userName != "")
+      {
+        Console.WriteLine("\nDo you know another accomplice? (Enter a name now. Hit 'enter' key without any name to move on.)");
+        userName = Console.ReadLine();
+        // Terminate the while loop immediately if the user enters nothing
+        if (userName == "")
+        {
+          break;
+        }
+
+        // Print out a list of possible specialties and have the user select which specialty this operative has.
+        // I made a dictionary with all three specialities
+        Dictionary<string, string> skillsSelect = new Dictionary<string, string>()
+      {
+        {"A","Hacker (Disables alarms)"},
+        {"B","Muscle (Disarms guards)"},
+        {"C","Lock Specialist (cracks vault)"}
+      };
+        Console.WriteLine("\nWhat specialty are they known for?" +
+                          $"\na: {skillsSelect["A"]}" +
+                          $"\nb: {skillsSelect["B"]}" +
+                          $"\nc: {skillsSelect["C"]}");
+        // Then have the user type just the letter of choice in list to save that specialty.
+        string cki = Console.ReadKey(true).Key.ToString();
+        string userSkill = null;
+        //  Use error handling in case the user doesn't pick from the list.
+        try
+        {
+          // Save just the name of the class of robber from the selected pick
+          userSkill = skillsSelect[cki].Substring(0, skillsSelect[cki].IndexOf("(")).Replace(" ", string.Empty);
+        }
+        catch (KeyNotFoundException)
+        {
+          Console.WriteLine("\nYou didn't pick one of the three options. Try again.");
+          // Give the user one more chance to pick from the list
+          try
+          {
+            Console.WriteLine("\nWhat specialty are they known for?" +
+                          $"\n{skillsSelect["A"]}" +
+                          $"\n{skillsSelect["B"]}" +
+                          $"\n{skillsSelect["C"]}");
+            cki = Console.ReadKey(true).Key.ToString();
+            // Save just the name of the class of robber from the selected pick
+            userSkill = skillsSelect[cki].Substring(0, skillsSelect[cki].IndexOf("(")).Replace(" ", string.Empty);
+          }
+          catch (KeyNotFoundException)
+          {
+            Console.WriteLine("\nYou are trying to cause problems, good day sir.");
+            Environment.Exit(0);
+          }
+        }
+
+        // Prompt the user to enter the new member's skill level
+        int userLevel = -1;
+        // Keep asking for skill level if integer does not fall in required range
+        while (userLevel < 1 || userLevel > 100)
+        {
+          Console.WriteLine($"\nWhat is {userName}'s skill level? (Enter an integer between 1-100)");
+          // Make sure the skill level is an integer
+          try
+          {
+            userLevel = Convert.ToInt32(Console.ReadLine());
+          }
+          catch (FormatException)
+          {
+            Console.WriteLine("Please enter only an integer value for skill level.");
+            // Give second change to enter a correct number
+            try
+            {
+              userLevel = Convert.ToInt32(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+              Console.WriteLine("Fine. Goodbye");
+              Environment.Exit(0);
+            }
+          }
+        }
+
+        // Once all data has been gathered, add the new member to the rolodex. Use if statement to add different classes
+
+        if (userSkill == "Hacker")
+        {
+          Hacker newMember = new Hacker
+          {
+            Name = userName,
+            SkillLevel = userLevel,
+          };
+          // Add newly created member to rolodex
+          rolodex.Add(newMember);
+        }
+        else if (userSkill == "Muscle")
+        {
+          Muscle newMember = new Muscle
+          {
+            Name = userName,
+            SkillLevel = userLevel,
+          };
+          // Add newly created member to rolodex
+          rolodex.Add(newMember);
+        }
+        else
+        {
+          LockSpecialist newMember = new LockSpecialist
+          {
+
+            Name = userName,
+            SkillLevel = userLevel,
+          };
+          // Add newly created member to rolodex
+          rolodex.Add(newMember);
+        }
+      }
     }
   }
 }
