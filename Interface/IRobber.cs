@@ -5,6 +5,8 @@ namespace heist_2
     string Name { get; }
     int SkillLevel { get; }
     int PercentageCut { get; }
+    // Added a property to identify their skill for Part 6
+    public string Specialty { get; }
     void PerformSkill(Bank foo);
   }
 }

@@ -7,6 +7,8 @@ namespace heist_2
     public string Name { get; set; }
     public int SkillLevel { get; set; }
     public int PercentageCut { get; set; }
+    // Added a property to identify their skill for Part 6
+    public string Specialty { get; } = "Lock Specialist";
     public void PerformSkill(Bank foo)
     {
       // Take the Bank parameter and decrement its appropraite security score by the SkillLevel

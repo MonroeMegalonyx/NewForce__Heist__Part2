@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace heist_2
 {
@@ -194,9 +195,92 @@ namespace heist_2
       Console.WriteLine("\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" +
                         "\n-*-*-*-*-*-*RECON REPORT READOUT-*-*-*-*-*-*");
       Console.WriteLine($"\nMost Secure: {mostSecureSystem}"+
-                        $"\nLeast Secure: {LeastSecureSystem}");
+                        $"\nLeast Secure: {leastSecureSystem}");
       
+      // Part 6. Execute the heist
+      // Print the entire rolodex with an index to select members
+      Console.WriteLine("\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" +
+                        "\n-*-*-*-*-*-*ROLODEX REPORT READOUT-*-*-*-*-*");
+      // Use for loop construction instead of foreach to easily print an index for user to select
+      for (int i=0; i < rolodex.Count; i++)
+      {
+        Console.WriteLine($"\nEntry: {i+1}");
+        Console.WriteLine($"Name:.......................{rolodex[i].Name}");
+        Console.WriteLine($"Specialty:..................{rolodex[i].Specialty}");
+        Console.WriteLine($"Skill (1-100):..............{rolodex[i].SkillLevel}");
+        Console.WriteLine($"Percent of Cut:.............{rolodex[i].PercentageCut}");
+      }
+
+      // Create a new list for the actual crew and use the printed index to add members to the list
+      List<IRobber> crew = new List<IRobber>{};
+      Console.WriteLine($"\nWhich contact would you like to add to our team? (Enter the entry number value)");
+      int selectedEntry = Convert.ToInt32(Console.ReadLine())-1;
+      crew.Add(rolodex[selectedEntry]);
       
+      // Continue adding eligible members until the user enters a blank value
+      bool addContact = true;
+      while (addContact == true)
+      {  
+        // Print out the remaining eligible rolodex entries after each selection. If they are already added or have to big of a cut don't list them. Still need to add screening for the percentage cut
+        
+        // Make a new list of remaining contacts and add an object from this list to the crew if selected. Check if entry already exists in the crew list. We are assuming unique names for an id here. Could add ID to the class properties later
+        List<IRobber> remainingContacts = rolodex.Where(foo => !crew.Any(bar => bar.Name == foo.Name)).ToList();  
+        // Print the eligible list, only if there are any contacts remaining tpo choose
+        if (remainingContacts.Count != 0)
+        {
+          Console.WriteLine("\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" +
+                          "\n-*-*-*-*-*-*ROLODEX REPORT READOUT-*-*-*-*-*");
+          // Use for loop construction instead of foreach to easily print an index for user to select
+          for (int i=0; i < remainingContacts.Count; i++)
+          {
+            Console.WriteLine($"\nEntry: {i+1}");
+            Console.WriteLine($"Name:.......................{remainingContacts[i].Name}");
+            Console.WriteLine($"Specialty:..................{remainingContacts[i].Specialty}");
+            Console.WriteLine($"Skill (1-100):..............{remainingContacts[i].SkillLevel}");
+            Console.WriteLine($"Percent of Cut:.............{remainingContacts[i].PercentageCut}");
+          }
+
+          // Ask user to add a new member, or move on if blank
+          Console.WriteLine($"\nWhich contact would you like to add to our growing team? (Enter the entry number value)");
+          try
+          {
+            int index = Convert.ToInt32(Console.ReadLine());
+            // If the user picked an index, add that contact to the existing crew list.
+            crew.Add(remainingContacts[index-1]);
+          }
+          catch (FormatException)
+          {
+            addContact = false;
+            break;
+          }
+          catch (ArgumentOutOfRangeException)
+          {
+            Console.WriteLine("You did not pick an entry in the list. Try again");
+          }
+        }
+        else
+        {
+          addContact = false;
+          break;
+        }
+      }
+
+      // Have each crew member perform their skills on the bank
+      foreach(IRobber accomplice in crew)
+      {
+        accomplice.PerformSkill(targetBranch);
+      }
+
+      // Evaluate bank's security after heist attempt and print result
+      if (targetBranch.IsSecure)
+      {
+        Console.WriteLine("Your team failed the heist. Better luck next time");
+      }
+      else
+      {
+        // When successful, print out report listing the amount each person gets based on their percentage
+        Console.WriteLine($"You did it! Your team made it out with {targetBranch.CashOnHand} dollars");
+      }
     }
   }
 }
