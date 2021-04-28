@@ -8,11 +8,11 @@ namespace heist_2
     static void Main(string[] args)
     {
       // Print the message "Plan Your Second Heist!".
-      Console.WriteLine("########################################" +
-                        "\n########### Plan Your Heist! ###########" +
-                        "\n########################################");
+      Console.WriteLine("\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" +
+                        "\n-*-*-*-*-*-*HEIST 2: THE COMEBACK-*-*-*-*-*-*" +
+                        "\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
 
-      // Part 4. Create a List<IRobber> and store it in a variable named rolodex
+      // Part 4. Create a List<IRobber> and store it in a variable named rolodex. Then let user add new members to the rolodex
       List<IRobber> rolodex = new List<IRobber>
       {
         // For now pre-populate the list with 5 or 6 robbers (give it a mix of Hackers, Lock Specialists, and Muscle).
@@ -57,7 +57,7 @@ namespace heist_2
       // When the program starts, print out the number of current operatives in the roladex.
       Console.WriteLine($"\nThere are {rolodex.Count} people we could call. Plus the Ghostbusters.");
 
-      // Prompt the user to enter the name of a new possible crew member. Continue adding new members until given a blank name
+      // Prompt the user to enter the name of a new possible crew member. This is beginning of method that will continue adding new members until given a blank name
       string userName = null;
       while (userName != "")
       {
@@ -172,6 +172,31 @@ namespace heist_2
           rolodex.Add(newMember);
         }
       }
+
+      // Part 5. Create a bank object with random property values and report about the bank's details
+      Bank targetBranch = new Bank
+      {
+        AlarmScore = new Random().Next(0, 100),
+        VaultScore = new Random().Next(0, 100),
+        SecurityGuardScore = new Random().Next(0, 100),
+        CashOnHand = new Random().Next(50000, 1000000)
+      };
+
+      // Print a recon report on bank for the user listing most secure and least secure score by name
+      // Save each bank score to easily compare
+      int a = targetBranch.AlarmScore;
+      int b = targetBranch.VaultScore;
+      int c = targetBranch.SecurityGuardScore;
+      // Find largest with a ternary comparison
+      string mostSecureSystem = (a > b && a > c) ? "Alarm System" : (b > a && b > c) ? "Vault Lock" : (c > a && c > b) ? "Security Guard" : "Multiple systems are equally high security";
+      string leastSecureSystem = (a < b && a < c) ? "Alarm System" : (b < a && b < c) ? "Vault Lock" : (c < a && c < b) ? "Security Guard" : "Multiple systems are equally low security";
+      
+      Console.WriteLine("\n-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" +
+                        "\n-*-*-*-*-*-*RECON REPORT READOUT-*-*-*-*-*-*");
+      Console.WriteLine($"\nMost Secure: {mostSecureSystem}"+
+                        $"\nLeast Secure: {LeastSecureSystem}");
+      
+      
     }
   }
 }
