@@ -92,7 +92,7 @@ namespace heist_2
         string userSkill = null;
         // Use error handling in case the user doesn't pick from the list.
         /*
-          Q for Jordan: What is the best way to let the user keep entering input until its a valid response? Here I just run the code a second time and the exit the app before the nested exceptions became unwieldy. 
+          Wrap in a while loop to make continuos attempts until valid result
         */
         try
         {
@@ -106,9 +106,9 @@ namespace heist_2
           try
           {
             Console.WriteLine("\nWhat specialty are they known for?" +
-                          $"\n{skillsSelect["A"]}" +
-                          $"\n{skillsSelect["B"]}" +
-                          $"\n{skillsSelect["C"]}");
+                          $"\na: {skillsSelect["A"]}" +
+                          $"\nb: {skillsSelect["B"]}" +
+                          $"\nc: {skillsSelect["C"]}");
             cki = Console.ReadKey(true).Key.ToString();
             // Save just the name of the class of robber from the selected pick
             userSkill = skillsSelect[cki].Substring(0, skillsSelect[cki].IndexOf("(")).Replace(" ", string.Empty);
@@ -124,7 +124,7 @@ namespace heist_2
         int userLevel = 0;
         // Keep asking for skill level if integer does not fall in required range. This will rewrite the value until the user enters an interger between 1 and 100.
         /*
-          Q for Jordan: How can I have it keep trying for a valid integer but with a differnt console line for subsequent attempts. The while loop does keep the user at this step until its valid, but I can't change the directions to explain why the user is stuck on this step.
+          Add a parameter that auto increments when the while loop runs and change the console writeline based on the value to change directions after multiple attempts. Or can move the first direction outside loop and then properly place the second directions in the catch handler.
         */
         while (userLevel < 1 || userLevel > 100)
         {
