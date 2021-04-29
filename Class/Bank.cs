@@ -1,3 +1,4 @@
+// Class for a bank, does not inherit any primary classes or interfaces
 namespace heist_2
 {
   public class Bank // Step 1. Create a Bank class with the following properties
@@ -13,7 +14,7 @@ namespace heist_2
       get
       {
         // If all the scores are less than or equal to 0, this should be false. If any of the scores are above 0, this should be true. Evaluate each individually instead of as a sum to account for possibility of negative integers on some properties.
-        if (CashOnHand > 0 || AlarmScore > 0 || VaultScore > 0 || SecurityGuardScore > 0)
+        if (AlarmScore > 0 || VaultScore > 0 || SecurityGuardScore > 0)
         {
           return true;
         }

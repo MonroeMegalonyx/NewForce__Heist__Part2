@@ -1,3 +1,4 @@
+// Class for a robber with Locl specialist properties to take on the vault
 using System;
 
 namespace heist_2
@@ -6,9 +7,14 @@ namespace heist_2
   {
     public string Name { get; set; }
     public int SkillLevel { get; set; }
-    public int PercentageCut { get; set; }
+    public double PercentageCut { get; set; }
     // Added a property to identify their skill for Part 6
     public string Specialty { get; } = "Lock Specialist";
+    // Added an ID property to match eligible picks for the heist in Part 6
+    private string _guid { get; } = IdGenerator.GetNextId();
+
+    public string GetId(){ return _guid; }
+
     public void PerformSkill(Bank foo)
     {
       // Take the Bank parameter and decrement its appropraite security score by the SkillLevel
